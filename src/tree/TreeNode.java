@@ -83,6 +83,13 @@ public class TreeNode<T extends DataStructureInterface> {
         return ancestors;
     }
 
+    public void iterate(List<TreeNode<T>> list) {
+        list.add(this);
+        for(TreeNode<T> child:children) {
+            child.iterate(list);
+        }
+    }
+
 	public boolean isLeaf() {
 		return children.size() <= 0 ? true : false;
 	}
