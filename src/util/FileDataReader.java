@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 
 import data.GuestData;
@@ -12,7 +13,7 @@ import data.GuestData;
 public class FileDataReader {
 	BufferedReader br;
 	public FileDataReader(File file) {
-		 try {
+	    try {
 			br = new BufferedReader(new FileReader(file));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -20,7 +21,7 @@ public class FileDataReader {
 		}
 	}
 
-	public ArrayList<GuestData> read() throws IOException {
+	public List<GuestData> read() throws IOException {
 		ArrayList<GuestData> dss = new ArrayList<>();
 		String line;
 		String[] params;
