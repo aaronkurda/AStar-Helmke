@@ -1,29 +1,24 @@
 package util;
-import data.DataStructureInterface;
-import data.GuestData;
-import tree.Tree;
-import tree.TreeNode;
+import tree.AStar;
+import tree.data.GuestEntityData;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
 		FileDataReader fdr = new FileDataReader(new File("D://Uni//C++//AStar-Helmke//Badbelegungsplanung2"));
-		List<GuestData> dsis = fdr.read();
+		List<GuestEntityData> dsis = fdr.read();
 
-		System.out.println(dsis.toString());
-		Tree<GuestData> t = new Tree<GuestData>(dsis);
+		/*System.out.println(dsis.toString());
+		Tree<GuestEntityData> t = new Tree<GuestEntityData>(dsis);
 
 		t.expandAll();
-		TreeNode<DataStructureInterface> penis;
-		List<TreeNode<GuestData>> list = t.toList();
-		TreeNode<GuestData> minNode = null;
+		List<Node<GuestEntityData>> list = t.toList();
+		Node<GuestEntityData> minNode = null;
 		int minCost = Integer.MAX_VALUE;
-		for(TreeNode<GuestData> node: list) {
+		for(Node<GuestEntityData> node: list) {
 		    if(node.isLeaf() && node.getfCost() < minCost) {
 		        minCost = node.getfCost();
 		        minNode = node;
@@ -31,11 +26,17 @@ public class Main {
             //System.out.println(node.getValue().getName());
         }
 
-        List<TreeNode<GuestData>> path = t.getPath(minNode);
+        System.out.println(t.toList());
+
+        List<Node<GuestEntityData>> path = t.getPath(minNode);
 		System.out.println(minNode.getfCost());
-        for(TreeNode<GuestData> tn: path) {
+        for(Node<GuestEntityData> tn: path) {
             System.out.print(tn.getValue().getName() + "-->");
-        }
+        }*/
+
+		AStar<GuestEntityData> astar = new AStar<>(dsis);
+		//System.out.println(astar.getMinCostLeafNode());
+        System.out.println(astar.toString());
 	}
 
 }

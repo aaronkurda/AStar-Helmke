@@ -1,7 +1,7 @@
 package tree;
 
-import data.DataStructureInterface;
-import data.GuestData;
+import tree.data.EntityData;
+import tree.data.GuestEntityData;
 import util.Time;
 
 import java.util.ArrayList;
@@ -15,20 +15,20 @@ import java.util.Stack;
  * Jeder Kind-Knoten kennt ein Elternteil und ein Eltern-Knoten kennt 0..n Kinder. (bidirektional).
  * Auf einem Pfad von Knoten zur Worzel des Baumes befindet sich ein T-Entity nur ein mal. Ist der Knoten ein Blatt befindet sich jedes T-Entity genau ein mal auf diesem Pfad.
  * Die Anzahl der Knoten des vollständig expandierten Baumes beträgt n! wobei gilt: n = entity.size. Für die Höhe des Baumes gilt. h = n
- * Ein T-Objekt muss das DataStructureInterface implementieren welches die Grundfunktionen bereit stellt, die für die Kostenberechnung eines Pfades erforderlich sind.
+ * Ein T-Objekt muss das EntityData implementieren welches die Grundfunktionen bereit stellt, die für die Kostenberechnung eines Pfades erforderlich sind.
  * Diese beinhalten: die frühst mögliche Startzeit (Badproblem: Aufstehzeit), die Dauer der aktivität (benötigte Zeit im Bad)
  *
  * @param <T>
  */
-public class Tree<T extends DataStructureInterface> {
-    List<T> entities;
-	TreeNode<T> root;
-	public Tree(final List<T> entities) {
+public class Tree<T extends EntityData> {
+    private List<T> entities;
+	private Node<T> root;
+	Tree(final List<T> entities) {
 	    this.entities = entities;
-		root = new TreeNode<T>(null,(T) GuestData.ROOT, Time.ZERO, 0);
+		root = new Node<T>(null,(T) GuestEntityData.ROOT, Time.ZERO, 0);
 	}
 
-    public TreeNode<T> getRoot() {
+    public Node<T> getRoot() {
 	    return root;
     }
 
@@ -37,8 +37,8 @@ public class Tree<T extends DataStructureInterface> {
      * Anzahl der TreeNodes im Baum = entities.size!
      * Höhe des Baumes = guestData.size
      */
-    public void expandAll() {
-        Stack<TreeNode<T>> openStack = new Stack<>();
+    void expandAll() {
+        Stack<Node<T>> openStack = new Stack<>();
 	    openStack.add(root);
         while(!openStack.isEmpty()) {
             openStack.addAll(openStack.pop().expand(entities));
@@ -50,12 +50,12 @@ public class Tree<T extends DataStructureInterface> {
      * @param goal : Der Startpunkt der Pfadberechnung.
      * @return Einen Pfad von goal zum root-Knoten des Baumes (und umgekehrt)
      */
-    public Stack<TreeNode<T>> getPath(TreeNode<T> goal) {
-	    Stack<TreeNode<T>> path = new Stack<>();
-	    path.push(goal);
-        TreeNode<T> current = path.peek().getParent();
+    List<Node<T>> getPathToRoot(Node<T> goal) {
+	    List<Node<T>> path = new ArrayList<>();
+	    path.add(0,goal);
+        Node<T> current = path.get(0).getParent();
 	    while(current != null) {
-            path.push(current);
+            path.add(0,current);
             current = current.getParent();
         }
         return path;
@@ -65,8 +65,8 @@ public class Tree<T extends DataStructureInterface> {
      * Konvertiert den Baum in eine Liste von TreeNodes. Die Liste ist nicht sortiert.
      * @return Alle Elemente des Baumes als Liste von TreeNodes
      */
-    public List<TreeNode<T>> toList() {
-        ArrayList<TreeNode<T>> list = new ArrayList<>();
+    List<Node<T>> toList() {
+        ArrayList<Node<T>> list = new ArrayList<>();
         root.iterate(list);
         return list;
     }

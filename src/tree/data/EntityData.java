@@ -1,4 +1,4 @@
-package data;
+package tree.data;
 
 import util.Time;
 
@@ -6,12 +6,12 @@ import util.Time;
  * Ein Interface mit Basisfunktionen zur Kostenberechnung im Tree.
  *
  */
-public interface DataStructureInterface{
+public interface EntityData {
     /**
-     * Definition eines Statischen ROOT-Objektes. Dieses Objekt wird von der TreeNode benutzt, die als root des Baumes dient.
+     * Definition eines Statischen ROOT-Objektes. Dieses Objekt wird von der Node benutzt, die als root des Baumes dient.
      * Das Objekt hat den Namen ROOT, die Zeit Time.ZERO und die dauer Time.ZERO. Zudem ist es zu jedem anderen Objekt (inklusive sich selbst) ungleich.
      */
-    public static DataStructureInterface ROOT = new DataStructureInterface() {
+    public static EntityData ROOT_ELEM = new EntityData() {
         @Override
         public Time getTime() {
             return Time.ZERO;

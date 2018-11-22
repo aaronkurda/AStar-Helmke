@@ -3,19 +3,19 @@ package tree;
 import java.util.ArrayList;
 import java.util.List;
 
-import data.DataStructureInterface;
+import tree.data.EntityData;
 import util.Time;
 
 
 /**
- * Ein TreeNode-Objekt eines Baums. Das TreeNode Objekt besteht aus statischen Daten (T value) die das Objekt der realen Welt repräsentieren.
- * Kontextsensitive Daten wie fCost und currentTime werden direkt im TreeNode Objekt verwaltet deren Werte von der Position der TreeNode im Baum abhängig sind.
- * fCost und currentTime werden bei der Definition einer TreeNode vom parent errechnet und können danach nicht mehr geändert werden.
+ * Ein Node-Objekt eines Baums. Das Node Objekt besteht aus statischen Daten (T value) die das Objekt der realen Welt repräsentieren.
+ * Kontextsensitive Daten wie fCost und currentTime werden direkt im Node Objekt verwaltet deren Werte von der Position der Node im Baum abhängig sind.
+ * fCost und currentTime werden bei der Definition einer Node vom parent errechnet und können danach nicht mehr geändert werden.
  * @param <T> : Die Daten die im TreeObjekt gespeichert werden sollen.
  */
-public class TreeNode<T extends DataStructureInterface> {
-	private ArrayList<TreeNode<T>> children;
-	private TreeNode<T> parent;
+public class Node<T extends EntityData> {
+	private ArrayList<Node<T>> children;
+	private Node<T> parent;
 	private T value;
 	private int fCost;
 	//Zeit nach abschluss(Anfang + duration) NO, SCHAU UNTERE ZEILE
@@ -25,16 +25,16 @@ public class TreeNode<T extends DataStructureInterface> {
 	private List<T> ancestors;
 
     /**
-     * Erstellt ein neues TreeNode Objekt mit einer DataStructure als Inhalt. Alle Hier gesetzten Attribute können im nachhinein NICHT geändert werden. Sie sind also quasi final.
-     * @param value : Den Datensatz den die TreeNode beinhalten soll.
+     * Erstellt ein neues Node Objekt mit einer DataStructure als Inhalt. Alle Hier gesetzten Attribute können im nachhinein NICHT geändert werden. Sie sind also quasi final.
+     * @param value : Den Datensatz den die Node beinhalten soll.
      * @param currentTime : Die Zeit, zu der die Person ins Bad darf. (NICHT die Zeit, zu der er fertig ist)
      *                    Für die currentTime eines Kindes gilt: child.currentTime = Time.add(this.currentTime,this.value.getDuration())
      *                    also die Zeit zu der der Eltern-Knoten aus dem Bad kommt.
      * @param fCost : die Gesamtkosten die bei der Traversierung bis zu diesem (einschließlich diesem) Knoten anfallen/angefallen sind.
      *              Für die fCost eines Kindes gilt: child.fCost = this.fCost + Time.deltaTime(child.currentTime,child.value.getTime()
      */
-	public TreeNode(TreeNode<T> parent, T value,Time currentTime, int fCost) {
-	    this.children = new ArrayList<TreeNode<T>>();
+	Node(Node<T> parent, T value, Time currentTime, int fCost) {
+	    this.children = new ArrayList<>();
 	    this.parent = parent;
 		this.value = value;
 		this.currentTime = currentTime;
@@ -47,14 +47,14 @@ public class TreeNode<T extends DataStructureInterface> {
      * Es gilt: getAllAncestors.contains(childData) == False
      * @param childData : Der Datensatz der im Kind gespeichert werden soll.
      */
-	public TreeNode<T> add (T childData) {
+    private Node<T> add (T childData) {
 	    if(!ancestors.contains(childData)) {
             Time childCurrentTime = Time.add(currentTime, value.getDuration());
-            TreeNode<T> child;
+            Node<T> child;
             if (childData.getTime().compareTo(childCurrentTime) <= 0) { //child.getTime() < cchildCurrentTime
-                child = new TreeNode<T>(this, childData, childCurrentTime, fCost + Time.deltaTime(childData.getTime(), childCurrentTime).toCost());
+                child = new Node<>(this, childData, childCurrentTime, fCost + Time.deltaTime(childData.getTime(), childCurrentTime).toCost());
             } else {
-                child = new TreeNode<T>(this, childData, childData.getTime(), fCost);
+                child = new Node<>(this, childData, childData.getTime(), fCost);
             }
             children.add(child);
             return child;
@@ -62,9 +62,9 @@ public class TreeNode<T extends DataStructureInterface> {
         return null;
 	}
 
-    public List<TreeNode<T>> expand(List<T> childDatas) {
-        ArrayList<TreeNode<T>> children = new ArrayList<TreeNode<T>>();
-        TreeNode<T> child;
+    List<Node<T>> expand(List<T> childDatas) {
+        ArrayList<Node<T>> children = new ArrayList<>();
+        Node<T> child;
         for(T childData: childDatas) {
             child = add(childData);
             if(child != null)
@@ -78,9 +78,9 @@ public class TreeNode<T extends DataStructureInterface> {
      * @return
      */
     private List<T> getAllAncestors() {
-        ArrayList<T> ancestors = new ArrayList<T>();
+        ArrayList<T> ancestors = new ArrayList<>();
         ancestors.add(this.value);
-        TreeNode<T> ancestor = parent;
+        Node<T> ancestor = parent;
         while(ancestor != null) {
             ancestors.add(ancestor.getValue());
             ancestor = ancestor.parent;
@@ -88,31 +88,31 @@ public class TreeNode<T extends DataStructureInterface> {
         return ancestors;
     }
 
-    public void iterate(List<TreeNode<T>> list) {
+    void iterate(List<Node<T>> list) {
         list.add(this);
-        for(TreeNode<T> child:children) {
+        for(Node<T> child:children) {
             child.iterate(list);
         }
     }
 
-	public boolean isLeaf() {
-		return children.size() <= 0 ? true : false;
+	boolean isLeaf() {
+		return children.size() <= 0;
 	}
 
 	//Getters
-    public ArrayList<TreeNode<T>> getChildren() {
+    public ArrayList<Node<T>> getChildren() {
         return children;
     }
 
-    public TreeNode<T> getParent() {
+    Node<T> getParent() {
         return parent;
     }
 
-    public T getValue() {
+    T getValue() {
         return value;
     }
 
-    public int getfCost() {
+    int getfCost() {
         return fCost;
     }
 
@@ -125,8 +125,12 @@ public class TreeNode<T extends DataStructureInterface> {
         return value.toString() + "|" + currentTime + "," + fCost;
     }
 
-    public String subtreeToString() {
-        String r = "{" + value.toString() + "|" + currentTime + "," + fCost + "-->" + children.toString() + "}";
+    String subtreeToString() {
+        String r = "{" + value.toString() + "|" + currentTime + "," + fCost + "-->[";
+        for(Node<T> child: children) {
+            r += child.subtreeToString();
+        }
+        r+= "]}";
         return r;
     }
 }

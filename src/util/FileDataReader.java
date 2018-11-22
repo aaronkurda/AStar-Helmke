@@ -6,9 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
-import data.GuestData;
+import tree.data.GuestEntityData;
 
 public class FileDataReader {
 	BufferedReader br;
@@ -21,8 +20,8 @@ public class FileDataReader {
 		}
 	}
 
-	public List<GuestData> read() throws IOException {
-		ArrayList<GuestData> dss = new ArrayList<>();
+	public List<GuestEntityData> read() throws IOException {
+		ArrayList<GuestEntityData> dss = new ArrayList<>();
 		String line;
 		String[] params;
 		while(br.ready()) {
@@ -31,7 +30,7 @@ public class FileDataReader {
 			if(params.length != 3) {
 				throw new IOException("Falsch formattierter Inhalt");
 			}
-			dss.add(new GuestData(params[0],Time.fromString(params[1]), Time.fromString(params[2])));
+			dss.add(new GuestEntityData(params[0],Time.fromString(params[1]), Time.fromString(params[2])));
 		}
 		return dss;
 	}
