@@ -1,0 +1,19 @@
+C++-Projekt:
+
+1. A* überarbeiten
+    a. Fraktionierung der Berechnung in kleineren Teilschritten
+    b. Optimierung der Erzeugung (LAZY/GREADY), Berechnung vom Pfad bei Generieung des Baumes  FERTIG?
+    c. Non-Generic AStar (Fallspezifisch)
+
+2. Code in C++ übersetzen
+    a. Schnittstellenanpassung
+    b. Pointer (Zugriffsverwaltung)
+    c. Memory leek
+
+Zeiiterfassung 22.11.2018 12:15:
+3.485 ohne Berechnung vom Pfad.
+25.107 mit Ausgabe vom Pfad
+
+
+Zeiiterfassung 22.11.2018 13:12:
+0.11 mit Ausgabe von Pfad
