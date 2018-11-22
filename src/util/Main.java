@@ -6,6 +6,7 @@ import tree.TreeNode;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -17,13 +18,24 @@ public class Main {
 		System.out.println(dsis.toString());
 		Tree<GuestData> t = new Tree<GuestData>(dsis);
 
-		TreeNode<GuestData> minNode = t.expandAll();
-        Stack<TreeNode<GuestData>> path = t.getPath(minNode);
-        System.out.println(path.size());
-		for(TreeNode<GuestData> p: path) {
-		    System.out.println(p.getValue().getName());
+		t.expandAll();
+		TreeNode<DataStructureInterface> penis;
+		List<TreeNode<GuestData>> list = t.toList();
+		TreeNode<GuestData> minNode = null;
+		int minCost = Integer.MAX_VALUE;
+		for(TreeNode<GuestData> node: list) {
+		    if(node.isLeaf() && node.getfCost() < minCost) {
+		        minCost = node.getfCost();
+		        minNode = node;
+            }
+            //System.out.println(node.getValue().getName());
         }
-		//System.out.println(t.getRoot().toString());
+
+        List<TreeNode<GuestData>> path = t.getPath(minNode);
+		System.out.println(minNode.getfCost());
+        for(TreeNode<GuestData> tn: path) {
+            System.out.print(tn.getValue().getName() + "-->");
+        }
 	}
 
 }

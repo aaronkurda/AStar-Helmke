@@ -2,12 +2,21 @@ package data;
 
 import util.Time;
 
+/**
+ * Deine Wrapper-Klasse für alle Daten die von einer TreeNode als Stammdaten verwaltet werden sollen.
+ * Gilt nur für die Badaufgabe. Muss für Flügzeuge erneuert werden.
+ */
 public class GuestData implements DataStructureInterface{
-    public static GuestData ROOT = new GuestData("ROOT", new Time(00,00), new Time(00,00));
-
+    public static GuestData ROOT = new GuestData("ROOT", Time.ZERO, Time.ZERO);
 	String bezeichner;
 	Time aufstehzeit, dauer;
-	
+
+    /**
+     * Erzeugt eine neue Datenstruktur mit einem Bezeichner, einer Aufstehzeit und einer Dauer.
+     * @param bez : Bezeichner dieser Datenstruktur.
+     * @param wake : Die Aufstehzeit der Person
+     * @param dur . Die Aufenthaltsdauer im Bad.
+     */
 	public GuestData(String bez, Time wake, Time dur) {
 		this.bezeichner = bez;
 		this.aufstehzeit = wake;
@@ -33,15 +42,4 @@ public class GuestData implements DataStructureInterface{
 	public String getName() {
 		return bezeichner;
 	}
-
-    @Override
-    public boolean equals(DataStructureInterface o) {
-        if(o instanceof DataStructureInterface) {
-            DataStructureInterface dsi = (DataStructureInterface) o;
-            if(dsi.getTime().compareTo(this.getTime()) == 0 && dsi.getDuration().compareTo(this.getDuration()) == 0 && dsi.getName().equals(this.getName())) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

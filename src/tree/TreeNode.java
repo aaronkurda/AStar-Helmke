@@ -7,8 +7,13 @@ import data.DataStructureInterface;
 import util.Time;
 
 
+/**
+ * Ein TreeNode-Objekt eines Baums. Das TreeNode Objekt besteht aus statischen Daten (T value) die das Objekt der realen Welt repräsentieren.
+ * Kontextsensitive Daten wie fCost und currentTime werden direkt im TreeNode Objekt verwaltet deren Werte von der Position der TreeNode im Baum abhängig sind.
+ * fCost und currentTime werden bei der Definition einer TreeNode vom parent errechnet und können danach nicht mehr geändert werden.
+ * @param <T> : Die Daten die im TreeObjekt gespeichert werden sollen.
+ */
 public class TreeNode<T extends DataStructureInterface> {
-
 	private ArrayList<TreeNode<T>> children;
 	private TreeNode<T> parent;
 	private T value;
@@ -94,7 +99,6 @@ public class TreeNode<T extends DataStructureInterface> {
 		return children.size() <= 0 ? true : false;
 	}
 
-
 	//Getters
     public ArrayList<TreeNode<T>> getChildren() {
         return children;
@@ -118,6 +122,10 @@ public class TreeNode<T extends DataStructureInterface> {
 
     @Override
     public String toString() {
+        return value.toString() + "|" + currentTime + "," + fCost;
+    }
+
+    public String subtreeToString() {
         String r = "{" + value.toString() + "|" + currentTime + "," + fCost + "-->" + children.toString() + "}";
         return r;
     }
