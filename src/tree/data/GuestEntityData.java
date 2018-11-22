@@ -7,9 +7,9 @@ import util.Time;
  * Gilt nur für die Badaufgabe. Muss für Flügzeuge erneuert werden.
  */
 public class GuestEntityData implements EntityData {
-    public static GuestEntityData ROOT = new GuestEntityData("ROOT", Time.ZERO, Time.ZERO);
+    public static GuestEntityData ROOT = new GuestEntityData("ROOT", 0,0);
 	String bezeichner;
-	Time aufstehzeit, dauer;
+	int aufstehzeit, dauer;
 
     /**
      * Erzeugt eine neue Datenstruktur mit einem Bezeichner, einer Aufstehzeit und einer Dauer.
@@ -17,7 +17,7 @@ public class GuestEntityData implements EntityData {
      * @param wake : Die Aufstehzeit der Person
      * @param dur . Die Aufenthaltsdauer im Bad.
      */
-	public GuestEntityData(String bez, Time wake, Time dur) {
+	public GuestEntityData(String bez, int wake, int dur) {
 		this.bezeichner = bez;
 		this.aufstehzeit = wake;
 		this.dauer = dur;
@@ -29,12 +29,12 @@ public class GuestEntityData implements EntityData {
 	}
 
 	@Override
-	public Time getTime() {
+	public int getTime() {
 		return aufstehzeit;
 	}
 
 	@Override
-	public Time getDuration() {
+	public int getDuration() {
 		return dauer;
 	}
 

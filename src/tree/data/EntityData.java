@@ -13,13 +13,13 @@ public interface EntityData {
      */
     public static EntityData ROOT_ELEM = new EntityData() {
         @Override
-        public Time getTime() {
-            return Time.ZERO;
+        public int getTime() {
+            return 0;
         }
 
         @Override
-        public Time getDuration() {
-            return Time.ZERO;
+        public int getDuration() {
+            return 0;
         }
 
         @Override
@@ -33,9 +33,9 @@ public interface EntityData {
         }
     };
 
-	public Time getTime();
+	public int getTime();
 	
-	public Time getDuration();
+	public int getDuration();
 	
 	public String getName();
 

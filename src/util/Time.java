@@ -18,6 +18,11 @@ public class Time implements Comparable<Time>{
 		this.hour = hour;
 	}
 
+	public static int timeToInt(String s) {
+		String[] ss = s.split(":");
+		return Integer.parseInt(ss[0]) * 60 + Integer.parseInt(ss[1]);
+	}
+
     /**
      * Erzeugt ein neues Time-Objekt aus einem String. Stunden und Minuten müssen mit : voneinander getrennt sein. (hh:mm) (ohne ())
      * @param s : Der String aus dem das Time-Objekt erstellt wird.

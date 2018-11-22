@@ -20,7 +20,7 @@ public class Node<T extends EntityData> {
 	private int fCost;
 	//Zeit nach abschluss(Anfang + duration) NO, SCHAU UNTERE ZEILE
     //Zeit zu der sich die Person in das Bad bewegen könnte (zu der das Flugzeug starten könnte)
-	private Time currentTime;
+	private int currentTime;
 
 	private List<T> ancestors;
 
@@ -33,7 +33,7 @@ public class Node<T extends EntityData> {
      * @param fCost : die Gesamtkosten die bei der Traversierung bis zu diesem (einschließlich diesem) Knoten anfallen/angefallen sind.
      *              Für die fCost eines Kindes gilt: child.fCost = this.fCost + Time.deltaTime(child.currentTime,child.value.getTime()
      */
-	Node(Node<T> parent, T value, Time currentTime, int fCost) {
+	Node(Node<T> parent, T value, int currentTime, int fCost) {
 	    this.children = new ArrayList<>();
 	    this.parent = parent;
 		this.value = value;
@@ -49,10 +49,10 @@ public class Node<T extends EntityData> {
      */
     private Node<T> add (T childData) {
 	    if(!ancestors.contains(childData)) {
-            Time childCurrentTime = Time.add(currentTime, value.getDuration());
+            int childCurrentTime = currentTime + value.getDuration();
             Node<T> child;
-            if (childData.getTime().compareTo(childCurrentTime) <= 0) { //child.getTime() < cchildCurrentTime
-                child = new Node<>(this, childData, childCurrentTime, fCost + Time.deltaTime(childData.getTime(), childCurrentTime).toCost());
+            if ((childData.getTime() - childCurrentTime) <= 0) {
+                child = new Node<>(this, childData, childCurrentTime, fCost - (childData.getTime() - childCurrentTime));
             } else {
                 child = new Node<>(this, childData, childData.getTime(), fCost);
             }
@@ -116,15 +116,14 @@ public class Node<T extends EntityData> {
         return fCost;
     }
 
-    public Time getCurrentTime() {
+    /*public Time getCurrentTime() {
         return currentTime;
-    }
+    }*/
 
     @Override
     public String toString() {
         return value.toString() + "|" + currentTime + "," + fCost;
     }
-
     String subtreeToString() {
         String r = "{" + value.toString() + "|" + currentTime + "," + fCost + "-->[";
         for(Node<T> child: children) {

@@ -9,6 +9,8 @@ import java.util.List;
 
 import tree.data.GuestEntityData;
 
+import static util.Time.timeToInt;
+
 public class FileDataReader {
 	BufferedReader br;
 	public FileDataReader(File file) {
@@ -25,12 +27,12 @@ public class FileDataReader {
 		String line;
 		String[] params;
 		while(br.ready()) {
-			line = br.readLine();
+			line = br.readLine().replaceAll("\\s{2,}"," ");
 			params = line.split(" ");
 			if(params.length != 3) {
 				throw new IOException("Falsch formattierter Inhalt");
 			}
-			dss.add(new GuestEntityData(params[0],Time.fromString(params[1]), Time.fromString(params[2])));
+			dss.add(new GuestEntityData(params[0], Time.timeToInt(params[1]), Integer.parseInt(params[2])));
 		}
 		return dss;
 	}

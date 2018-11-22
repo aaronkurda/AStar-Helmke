@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
-		FileDataReader fdr = new FileDataReader(new File("D://Uni//C++//AStar-Helmke//Badbelegungsplanung2"));
+		FileDataReader fdr = new FileDataReader(new File("C:\\Uni\\C++\\AStarGuest\\Badbelegungsplanung2"));
 		List<GuestEntityData> dsis = fdr.read();
 
 		/*System.out.println(dsis.toString());
@@ -36,7 +36,7 @@ public class Main {
 
 		AStar<GuestEntityData> astar = new AStar<>(dsis);
 		//System.out.println(astar.getMinCostLeafNode());
-        System.out.println(astar.toString());
+        System.out.println(astar.getMinCostPath());
 	}
 
 }

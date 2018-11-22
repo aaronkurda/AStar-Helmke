@@ -25,7 +25,7 @@ public class Tree<T extends EntityData> {
 	private Node<T> root;
 	Tree(final List<T> entities) {
 	    this.entities = entities;
-		root = new Node<T>(null,(T) GuestEntityData.ROOT, Time.ZERO, 0);
+		root = new Node<T>(null,(T) GuestEntityData.ROOT, 0, 0);
 	}
 
     public Node<T> getRoot() {
