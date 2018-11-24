@@ -33,7 +33,7 @@ public class Node<T extends EntityData> {
      * @param fCost : die Gesamtkosten die bei der Traversierung bis zu diesem (einschließlich diesem) Knoten anfallen/angefallen sind.
      *              Für die fCost eines Kindes gilt: child.fCost = this.fCost + Time.deltaTime(child.currentTime,child.value.getTime()
      */
-	Node(Node<T> parent, T value, int currentTime, int fCost) {
+	public Node(Node<T> parent, T value, int currentTime, int fCost) {
 	    this.children = new ArrayList<>();
 	    this.parent = parent;
 		this.value = value;
@@ -62,15 +62,21 @@ public class Node<T extends EntityData> {
         return null;
 	}
 
-    List<Node<T>> expand(List<T> childDatas) {
-        ArrayList<Node<T>> children = new ArrayList<>();
-        Node<T> child;
+    public List<Node<T>> expand(List<T> childDatas) {
+        boolean skipEntity = false;
         for(T childData: childDatas) {
-            child = add(childData);
-            if(child != null)
-                children.add(child);
+            for(int i = 0; i < children.size(); i++) {
+                if(children.get(i).getValue().equals(childData)) {
+                    skipEntity = true;
+                    break;
+                }
+            }
+            if(skipEntity == false) {
+                add(childData);
+            }
+            skipEntity = false;
         }
-        return children;
+        return this.children;
     }
 
     /**
@@ -120,11 +126,26 @@ public class Node<T extends EntityData> {
         return currentTime;
     }*/
 
+    void isolate() {
+        this.children = new ArrayList<>();
+        this.parent = null;
+    }
+
+    void unsetParent() {
+        parent = null;
+    }
+
+    void unsetAsChild() {
+        if(parent != null) {
+            this.parent.getChildren().remove(this);
+        }
+    }
+
     @Override
     public String toString() {
         return value.toString() + "|" + currentTime + "," + fCost;
     }
-    String subtreeToString() {
+    public String subtreeToString() {
         String r = "{" + value.toString() + "|" + currentTime + "," + fCost + "-->[";
         for(Node<T> child: children) {
             r += child.subtreeToString();

@@ -21,10 +21,8 @@ import java.util.Stack;
  * @param <T>
  */
 public class Tree<T extends EntityData> {
-    private List<T> entities;
 	private Node<T> root;
-	Tree(final List<T> entities) {
-	    this.entities = entities;
+	Tree() {
 		root = new Node<T>(null,(T) GuestEntityData.ROOT, 0, 0);
 	}
 
@@ -37,7 +35,7 @@ public class Tree<T extends EntityData> {
      * Anzahl der TreeNodes im Baum = entities.size!
      * Höhe des Baumes = guestData.size
      */
-    void expandAll() {
+    void expandAll(List<T> entities) {
         Stack<Node<T>> openStack = new Stack<>();
 	    openStack.add(root);
         while(!openStack.isEmpty()) {
@@ -50,11 +48,15 @@ public class Tree<T extends EntityData> {
      * @param goal : Der Startpunkt der Pfadberechnung.
      * @return Einen Pfad von goal zum root-Knoten des Baumes (und umgekehrt)
      */
-    List<Node<T>> getPathToRoot(Node<T> goal) {
+    public List<Node<T>> getNodePathToRoot(Node<T> goal) {
+        if(goal == null || goal == root) {
+            return null;
+        }
+
 	    List<Node<T>> path = new ArrayList<>();
 	    path.add(0,goal);
         Node<T> current = path.get(0).getParent();
-	    while(current != null) {
+	    while(current != null && current != root) {
             path.add(0,current);
             current = current.getParent();
         }
@@ -69,6 +71,10 @@ public class Tree<T extends EntityData> {
         ArrayList<Node<T>> list = new ArrayList<>();
         root.iterate(list);
         return list;
+    }
+
+    void setNewRoot(Node<T> newRoot) {
+        root = newRoot;
     }
 
     /**
