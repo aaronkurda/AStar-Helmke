@@ -1,9 +1,9 @@
 C++-Projekt:
 
 1. A* überarbeiten
-    a. Fraktionierung der Berechnung in kleineren Teilschritten FERTIG
+    a. Fraktionierung der Berechnung in kleineren Teilschritten FERTIG!
     b. Optimierung der Erzeugung (LAZY/GREADY), Berechnung vom Pfad bei Generieung des Baumes  FERTIG?
-    c. Non-Generic AStar (Fallspezifisch) FERTIG
+    c. Non-Generic AStar (Fallspezifisch) FERTIG!
 
 2. Code in C++ übersetzen
     a. Schnittstellenanpassung
